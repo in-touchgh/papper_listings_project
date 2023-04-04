@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -20,6 +21,7 @@ class LaBrasserieReuse extends StatefulWidget {
 class _LaBrasserieReuseState extends State<LaBrasserieReuse> {
   final pc = PanelController();
   bool open = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -42,7 +44,10 @@ class _LaBrasserieReuseState extends State<LaBrasserieReuse> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        !open ? routesProvider.active['name'] : 'Menu',
+                        !open
+                            ? routesProvider.routes.singleWhere((element) =>
+                                element['route'] == Get.currentRoute)['name']
+                            : 'Menu',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -85,25 +90,23 @@ class _LaBrasserieReuseState extends State<LaBrasserieReuse> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: routesProvider.routes.map((e) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 30),
-                      child: InkWell(
-                        onTap: () {
-                          routesProvider.setActive(e);
-                        },
-                        child: Text(
-                          e['name'],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: routesProvider.routes.map((e) {
+                  return ListTile(
+                    onTap: () {
+                      routesProvider.setActive(e);
+                    },
+                    title: Text(
+                      e['name'],
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
-                    );
-                  }).toList()),
+                    ),
+                  );
+                }).toList(),
+              ),
             )
           ],
         ),

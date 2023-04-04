@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../Utils/dialog_utils.dart';
+import '../../Utils/print_utils.dart';
 import '../../Widgets/custom_button.dart';
 
 mixin FileUploadMixin {
@@ -26,26 +28,19 @@ mixin FileUploadMixin {
 
       return res;
     } on TimeoutException {
-      if (kDebugMode) {
-        print("Connection timed out");
-      }
+      PrintUtils.errorDebugPrint("Connection timed out");
       return null;
     } on dio.DioError catch (e) {
       if (e.response != null) {
-        if (kDebugMode) {
-          print(e.response!.data);
-        }
+        PrintUtils.errorDebugPrint(e.response!.data);
         return e.response!;
       } else {
-        if (kDebugMode) {
-          print(e.message);
-        }
+        PrintUtils.errorDebugPrint(e.message!);
         return null;
       }
     } catch (error) {
-      if (kDebugMode) {
-        print("file upload: $error");
-      }
+      PrintUtils.errorDebugPrint("file upload: $error");
+
       return null;
     }
   }
@@ -61,9 +56,7 @@ mixin FileUploadMixin {
         'upload_preset': "ix8u70vl"
       });
 
-      if (kDebugMode) {
-        print(formData.files);
-      }
+      PrintUtils.errorDebugPrint("${formData.files}");
 
       dio.Response res = await dio.Dio().post(
         route,
@@ -72,40 +65,17 @@ mixin FileUploadMixin {
 
       return res;
     } on TimeoutException {
-      if (kDebugMode) {
-        print("Connection timed out");
-      }
-      Get.dialog(AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        contentPadding: const EdgeInsets.all(20),
-        icon: const Icon(
-          Icons.cancel,
-          color: Colors.red,
-          size: 80,
-        ),
-        title: const Text('Upload documents'),
-        content: const Text(
-          'Connection timed out',
-          textAlign: TextAlign.center,
-        ),
-        actionsPadding: const EdgeInsets.all(20),
-        actions: [
-          CustomButton(
-            onPress: () {
-              Get.back();
-            },
-            child: const Text('Okay'),
-          )
-        ],
-      ));
+      PrintUtils.errorDebugPrint("Connection timed out");
+
+      DialogUtils.errorDialog(
+        title: 'Upload Documents',
+        content: 'Connection timed out',
+      );
       return null;
     } on dio.DioError catch (e) {
       if (e.response != null) {
-        if (kDebugMode) {
-          print("dio err res: ${e.response!.data}");
-        }
+        PrintUtils.errorDebugPrint("dio err res: ${e.response!.data}");
+
         Get.dialog(AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -133,15 +103,17 @@ mixin FileUploadMixin {
         ));
         return e.response!;
       } else {
-        if (kDebugMode) {
-          print(e.message);
-        }
+        PrintUtils.errorDebugPrint("${e.message}");
+
+        DialogUtils.errorDialog(
+          title: 'Upload document',
+          content: e.message,
+        );
         return null;
       }
     } catch (error) {
-      if (kDebugMode) {
-        print("file upload: $error");
-      }
+      PrintUtils.errorDebugPrint("file upload: $error");
+
       Get.dialog(AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),

@@ -9,6 +9,11 @@ class RoutesProvider extends ChangeNotifier {
   Map _active = {'name': 'FAQ', 'route': FaqsView.idScreen};
   Map _mainActive = {'name': 'Home', 'route': '/home'};
 
+  resetActive() {
+    _active = {'name': 'FAQ', 'route': FaqsView.idScreen};
+    notifyListeners();
+  }
+
   List routes = [
     {'name': 'About', 'route': '/about'},
     {'name': 'Our menu', 'route': '/menu'},

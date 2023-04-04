@@ -42,22 +42,13 @@ class _GalleryMobileViewState extends State<GalleryMobileView> {
                 ? Shimmer.fromColors(
                     baseColor: Colors.grey[300]!,
                     highlightColor: Colors.grey[100]!,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 200,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 200,
-                          ),
-                        )
-                      ],
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      height: 350,
+                      width: double.infinity,
                     ),
                   )
                 : Column(

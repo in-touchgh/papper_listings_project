@@ -207,7 +207,11 @@ class _KycMobileViewState extends State<KycMobileView> {
               ),
               CustomButton(
                 onPress: () {
-                  if (kIsWeb && kycProvider.webImageFront == null ||
+                  if (kycProvider.selectedDoc == null) {
+                    DialogUtils.infoDialog(
+                        title: 'Upload document',
+                        content: "Please select a document type");
+                  } else if (kIsWeb && kycProvider.webImageFront == null ||
                       !kIsWeb && kycProvider.imageFront == null) {
                     DialogUtils.infoDialog(
                         title: 'Upload document',

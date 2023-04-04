@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../Utils/dialog_utils.dart';
+import '../../Utils/print_utils.dart';
 import '../Box/box_manager.dart';
 
 ///This is where we specify all the http verbs that will be used in the app.
@@ -40,9 +42,14 @@ mixin GeneralMixin {
       return res;
     } on TimeoutException {
       //handle timeout
-      throw ('Connection timed out');
+      // throw ('Connection timed out');
+      DialogUtils.errorDialog(
+        title: 'Error',
+        content: 'Connection timed out',
+      );
     } catch (error) {
       //handle other exception
+      PrintUtils.errorDebugPrint(error.toString());
       return null;
     }
   }

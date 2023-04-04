@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:paperless_listings/Services/kyc_service.dart';
 import 'package:paperless_listings/Utils/dialog_utils.dart';
+import 'package:paperless_listings/Utils/print_utils.dart';
 
 class KycProvider extends ChangeNotifier {
   String? _selectedDoc;
@@ -102,9 +103,7 @@ class KycProvider extends ChangeNotifier {
 
     if (res1 != null) {
       if (res1.statusCode == 200) {
-        if (kDebugMode) {
-          print("res1 data: ${res1.data}");
-        }
+        PrintUtils.errorDebugPrint("res1 data: ${res1.data}");
         dio.Response? res2 = await KycService().uploadImage(
           data: kIsWeb ? _webImageBack : _imageBack,
           fileName: webBackFileName,
@@ -114,24 +113,33 @@ class KycProvider extends ChangeNotifier {
 
         if (res2 != null) {
           if (res2.statusCode == 200) {
-            if (kDebugMode) {
-              _webImageFront = null;
-              _imageFront = null;
-              _webImageBack = null;
-              _imageBack = null;
-              notifyListeners();
-
-              print("res2 data: ${res2.data}");
-              DialogUtils.successDialog(
-                title: 'Upload document',
-                content: 'Documents uploaded successfully',
-              );
-            }
+            PrintUtils.errorDebugPrint("res2 data: ${res2.data}");
+            _webImageFront = null;
+            _imageFront = null;
+            _webImageBack = null;
+            _imageBack = null;
+            notifyListeners();
+            DialogUtils.successDialog(
+              title: 'Upload document',
+              content: 'Documents uploaded successfully',
+            );
+          } else {
+            DialogUtils.errorDialog(
+              title: 'Upload document',
+              content: 'Oops! An error occurred',
+            );
           }
+        } else {
+          print('error occurred 4');
         }
       } else {
+        PrintUtils.errorDebugPrint("res1 data: ${res1.data}");
         _uploading = false;
         notifyListeners();
+        DialogUtils.errorDialog(
+          title: 'Upload document',
+          content: 'Oops! An error occurred',
+        );
       }
     } else {
       _uploading = false;

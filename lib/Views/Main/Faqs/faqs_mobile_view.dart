@@ -78,8 +78,6 @@ class _FaqsMobileViewState extends State<FaqsMobileView> {
                 contentBorderWidth: 0,
                 contentBorderRadius: 5,
                 contentBorderColor: Colors.transparent,
-                // onOpenSection: () => print('onOpenSection ...'),
-                // onCloseSection: () => print('onCloseSection ...'),
               ),
               AccordionSection(
                 leftIcon: const Text(
@@ -115,8 +113,6 @@ class _FaqsMobileViewState extends State<FaqsMobileView> {
                 contentBorderWidth: 0,
                 contentBorderRadius: 5,
                 contentBorderColor: Colors.transparent,
-                // onOpenSection: () => print('onOpenSection ...'),
-                // onCloseSection: () => print('onCloseSection ...'),
               ),
             ],
           )
